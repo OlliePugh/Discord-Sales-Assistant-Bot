@@ -2,6 +2,8 @@ Hello!
 
 This is a very simple bot that needs a few steps to be setup.
 
+Its purpose is to allow you to handle transactions with users on your discord server without the user having to try and find a staff member that will help them, they can simply just react to an ad about a product you are selling!
+
 1. Go into config.json, use notepad if you are unsure what software to use
 2. Add your discord API token to the part inbetween the two "" next to token. Now it should look something like: "token" : "nNA1S34IOsm9OAisM4a5snIu12Ash", 
 3. Add the symbol you would like to use before commands (usually !), once again, place this inbetween the speech marks next to the word prefix.
