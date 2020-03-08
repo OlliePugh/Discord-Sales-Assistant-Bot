@@ -80,6 +80,12 @@ if (!config.channel_id){
   process.exit(42);
 }
 
+if (!config.staff_role){
+  console.error("You have not set your staff role id");
+  process.exit(42);
+}
+
+
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
 });
