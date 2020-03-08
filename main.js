@@ -5,6 +5,8 @@ const client = new Discord.Client({partials: ['MESSAGE', 'CHANNEL', 'REACTION']}
 
 var ticket_num = 0;
 
+var rooms = []
+
 //THIS WILL NEED FIXING AS WILL NOT KNOW PEOPLE THAT HAVE BEEN GIVEN ROLE SINCE THE BOT WAS STARTED
 
 function create_help_room(guild, customer, staff){
@@ -29,6 +31,8 @@ function create_help_room(guild, customer, staff){
           allow: ["VIEW_CHANNEL", "SEND_MESSAGES"]
         },
       ]
+    }).then(room => {
+      rooms.push(room);  // add the room to the array of opened rooms
     });
     ticket_num++
     customer.send("A room with the name #" + room_name + " has been opened and a member of staff will be waiting there for you");
@@ -81,7 +85,12 @@ client.on('ready', () => {
 });
 
 client.on('message', msg => {
-
+  if (msg.content.startsWith(`${config.prefix}done`)){
+    if (rooms.includes(msg.channel)){
+      rooms = rooms.filter(room => room.id !== msg.channel.id); // remove it from the active rooms list
+      msg.channel.delete();
+    }
+  }
 });
 
 client.on("messageReactionAdd", async function(reaction, user){
