@@ -7,8 +7,6 @@ var ticket_num = 0;
 
 var rooms = []
 
-//THIS WILL NEED FIXING AS WILL NOT KNOW PEOPLE THAT HAVE BEEN GIVEN ROLE SINCE THE BOT WAS STARTED
-
 function create_help_room(guild, customer, staff){
   return new Promise(function(resolve, reject) {
     let room_name = "sale_room_"+ticket_num
@@ -106,7 +104,7 @@ client.on("messageReactionAdd", async function(reaction, user){
   if (reaction.message.channel.id === config.channel_id){ // if the reaction was in the shop channel
     let message = await user.send("Would you like a member of staff to assist you with a purchase of: \n"+reaction.message.content+"\n\nRespond with (Y/N)");
 
-    let collector = new Discord.MessageCollector(message.channel, m => m.author.id === user.id, { time: 10000, max: 1});
+    let collector = new Discord.MessageCollector(message.channel, m => m.author.id === user.id, { time: 30000, max: 1});
     collector.on('collect', async message => {
       if (message.content.toLowerCase() === "y") {
         user.send("Waiting for a staff member to respond");
@@ -117,7 +115,7 @@ client.on("messageReactionAdd", async function(reaction, user){
 
         staff.forEach(staff_user => {  // for each member with the tole of staff
           staff_user.send("Can you assist someone with a sale right now? (Y/N)").then(message => {
-            let staff_collector = new Discord.MessageCollector(staff_user.dmChannel, m => m.author.id === staff_user.id, { time: 10000, max: 1});
+            let staff_collector = new Discord.MessageCollector(staff_user.dmChannel, m => m.author.id === staff_user.id, { time: 30000, max: 1});
             staff_collectors.push(staff_collector);
             staff_collector.on("collect", async message => { // this waits for a response from a staff member to accept the job
               let staff_member = await reaction.message.guild.members.fetch(staff_user.id);
